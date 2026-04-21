@@ -1,0 +1,51 @@
+# ==========================================
+# GENERAL
+# ==========================================
+.DS_Store
+*.pem
+.env*
+.vercel
+
+# ==========================================
+# FRONTEND (Next.js)
+# ==========================================
+# Ignora dependencias y builds dentro de la carpeta frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.pnp
+frontend/.pnp.*
+frontend/.yarn/*
+!frontend/.yarn/patches
+!frontend/.yarn/plugins
+!frontend/.yarn/releases
+!frontend/.yarn/versions
+
+# Logs de frontend
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+
+# Testing y TS
+frontend/coverage/
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# ==========================================
+# BACKEND (FastAPI / Python)
+# ==========================================
+# Entornos virtuales
+backend/.venv/
+backend/venv/
+backend/env/
+backend/python/
+
+# Cache de Python y archivos compilados
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+
+# Dependencias de Python
+backend/node_modules/
