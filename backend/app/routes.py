@@ -1,5 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from app import schemas, parser
+from app import schemas, parser, analytics
 import zipfile
 import io
 
@@ -24,5 +24,10 @@ async def upload_file(file: UploadFile = File(...)):
     messages = parser.process_chat(texto)
     return {
         "chat_name": file.filename,
-        "messages": messages
+        "messages_total": analytics.obtener_cantidad_mensajes(messages),
+        "analytics": {
+            "most_active_user": analytics.usuario_mas_activo(messages),
+            "peak_time": analytics.franja_horaria_pico(messages),
+            "active_days": analytics.dias_mas_activos(messages)
+        }
     }

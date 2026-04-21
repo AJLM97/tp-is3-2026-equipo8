@@ -9,4 +9,5 @@ class Message(BaseModel):
 
 class ChatResponse(BaseModel):
     chat_name: str
-    messages: List[Message]
+    messages_total: int
+    analytics: dict
