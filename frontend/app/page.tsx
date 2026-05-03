@@ -85,9 +85,72 @@ export default function FileUploader() {
                 <span className="text-green-400 text-xs font-mono">Análisis listo:</span>
                 <button onClick={() => setResult(null)} className="text-gray-500 hover:text-white text-xs">Ocultar</button>
               </div>
-              <pre className="text-white text-[10px] overflow-auto max-h-48 custom-scrollbar">
-                {JSON.stringify(result, null, 2)}
-              </pre>
+              <div className="text-white space-y-6 text-sm">
+
+  {/* Tabla 1: Resumen */}
+  <div>
+    <h3 className="text-green-400 font-bold mb-2">Resumen</h3>
+    <table className="w-full border border-gray-700 text-left">
+      <tbody>
+        <tr className="border-b border-gray-700">
+          <td className="p-2 font-semibold">Chat</td>
+          <td className="p-2">{result.chat_name}</td>
+        </tr>
+        <tr>
+          <td className="p-2 font-semibold">Mensajes totales</td>
+          <td className="p-2">{result.messages_total}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  {/* Tabla 2: Análisis */}
+  <div>
+    <h3 className="text-green-400 font-bold mb-2">Análisis</h3>
+    <table className="w-full border border-gray-700 text-left">
+      <tbody>
+        <tr className="border-b border-gray-700">
+          <td className="p-2 font-semibold">Usuario más activo</td>
+          <td className="p-2">{result.analytics.most_active_user.user}</td>
+        </tr>
+        <tr className="border-b border-gray-700">
+          <td className="p-2 font-semibold">Mensajes del usuario</td>
+          <td className="p-2">{result.analytics.most_active_user.messages_total}</td>
+        </tr>
+        <tr className="border-b border-gray-700">
+          <td className="p-2 font-semibold">Franja horaria pico</td>
+          <td className="p-2">{result.analytics.peak_time.peak_time}</td>
+        </tr>
+        <tr>
+          <td className="p-2 font-semibold">Mensajes en esa franja</td>
+          <td className="p-2">{result.analytics.peak_time.messages_total}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  {/* Tabla 3: Días más activos */}
+  <div>
+    <h3 className="text-green-400 font-bold mb-2">Días más activos</h3>
+    <table className="w-full border border-gray-700 text-left">
+      <thead>
+        <tr className="border-b border-gray-700">
+          <th className="p-2">Fecha</th>
+          <th className="p-2">Mensajes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {result.analytics.active_days.map((day: any, index: number) => (
+          <tr key={index} className="border-b border-gray-700">
+            <td className="p-2">{day.date}</td>
+            <td className="p-2">{day.messages_total}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+</div>
             </div>
           )}
         </div>
