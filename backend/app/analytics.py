@@ -42,3 +42,35 @@ def dias_mas_activos(mensajes: list) -> list:
     top_dias = conteo.most_common(3)
     
     return [{"date": fecha, "messages_total": cantidad} for fecha, cantidad in top_dias]
+
+
+# ---- Nuevas funciones para gráficos ----
+def hour_buckets(mensajes: list) -> list:
+    """Devuelve una lista de 24 enteros con el conteo de mensajes por hora (0..23)."""
+    buckets = [0] * 24
+    for m in mensajes:
+        h = None
+        # soporte tanto 'hour' como 'hour' string 'HH:MM' o entero
+        if "hour" in m and m["hour"] is not None:
+            hour_val = m["hour"]
+            try:
+                if isinstance(hour_val, int):
+                    h = hour_val
+                else:
+                    # si viene como '07:15' o '7:15'
+                    h = int(str(hour_val).split(":")[0])
+            except Exception:
+                h = None
+
+        if h is not None and 0 <= h < 24:
+            buckets[h] += 1
+
+    return buckets
+
+
+def top_users(mensajes: list, n: int = 10) -> list:
+    """Devuelve una lista de dicts {user, count} con los n usuarios más activos."""
+    usuarios = [m.get("user") or "Unknown" for m in mensajes if m.get("user") != "Sistema"]
+    conteo = Counter(usuarios)
+    return [{"user": u, "count": c} for u, c in conteo.most_common(n)]
+
