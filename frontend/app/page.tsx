@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
+import BarHours from './components/BarHours'
+import DonutUsers from './components/DonutUsers'
 
 export default function FileUploader() {
   const [file, setFile] = useState<File | null>(null);
@@ -148,6 +150,23 @@ export default function FileUploader() {
         ))}
       </tbody>
     </table>
+  </div>
+
+  {/* Gráficos: título y dos gráficos apilados verticalmente */}
+  <div className="mt-6">
+    <h3 className="text-green-400 font-bold mb-2">Gráfico de actividad</h3>
+
+    <div className="flex flex-col gap-6">
+      <div className="w-full">
+        {/* @ts-ignore */}
+        <BarHours buckets={result.analytics.hour_buckets || Array.from({ length: 24 }, () => 0)} />
+      </div>
+
+      <div className="w-full">
+        {/* @ts-ignore */}
+        <DonutUsers topUsers={result.analytics.top_users || []} />
+      </div>
+    </div>
   </div>
 
 </div>
