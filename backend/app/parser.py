@@ -10,6 +10,9 @@ REGEX_NUEVO = r"^\[(\d{1,2}/\d{1,2}/\d{2,4}),\s(\d{1,2}:\d{2}):\d{2}\]\s"
 # Nota: \s? soporta espacios normales y espacios invisibles de no ruptura (\u202f)
 REGEX_NUEVO_COMA = r"^(\d{1,2}/\d{1,2}/\d{2,4}),\s(\d{1,2}:\d{2})\s?([ap]\.\s?m\.)\s-\s"
 
+# Formato nuevo con coma pero sin a.m./p.m. (24 horas): 9/6/2026, 04:21 - Usuario:
+REGEX_NUEVO_24H = r"^(\d{1,2}/\d{1,2}/\d{2,4}),\s(\d{1,2}:\d{2})\s-\s"
+
 def process_chat(chat_text: str):
     lines = chat_text.splitlines()
     parsed_messages = []
@@ -20,8 +23,9 @@ def process_chat(chat_text: str):
         match_viejo = re.match(REGEX_VIEJO, line)
         match_nuevo = re.match(REGEX_NUEVO, line)
         match_nuevo_coma = re.match(REGEX_NUEVO_COMA, line)
+        match_nuevo_24h = re.match(REGEX_NUEVO_24H, line)
 
-        match_inicio = match_viejo or match_nuevo or match_nuevo_coma
+        match_inicio = match_viejo or match_nuevo or match_nuevo_coma or match_nuevo_24h
 
         if match_inicio:
             if current_message:
