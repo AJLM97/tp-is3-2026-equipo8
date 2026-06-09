@@ -75,15 +75,23 @@ def top_users(mensajes: list, n: int = 10) -> list:
     conteo = Counter(usuarios)
     return [{"user": u, "count": c} for u, c in conteo.most_common(n)]
 
-# 2.2.1 Words Cloud - Las n palabras más usadas (excluyendo stop words)
+# 2.2.1 Words Cloud - Las n palabras más usadas (excluyendo stop words y avisos de multimedia)
 def obtener_nube_palabras(mensajes: list, n: int = 50) -> list:
-    """Devuelve una lista de dicts {text, value} con las n palabras más usadas."""
     palabras_totales = []
     
     for m in mensajes:
         texto = m.get("message")
+        
+        if not texto or not isinstance(texto, str):
+            continue
+            
+        texto_lowercase = texto.lower()
+        if "<multimedia omitido>" in texto_lowercase or "<media omitted>" in texto_lowercase:
+            continue
+            
         palabras_limpias = limpiar_texto_mensaje(texto)
         palabras_totales.extend(palabras_limpias)
         
     conteo = Counter(palabras_totales)
     return [{"text": palabra, "value": cantidad} for palabra, cantidad in conteo.most_common(n)]
+

@@ -69,7 +69,8 @@ STOP_WORDS = {"el", "la", "los", "las", "un", "una",
               "mi", "tu", "su", "nuestro", "vuestro",
               "es", "son", "fue", "han", "está", "están", "era", "eran", "será", "serán",
               "sí", "no", "si", "este", "esta", "estos", "estas", "eso", "esa", "esos", "esas",
-              "aquí", "allí", "allá", "ahí"}
+              "aquí", "allí", "allá", "ahí",
+              "del", "al", "lo", "le", "les",}
 
 def limpiar_texto_mensaje(texto_original: str) -> list:
     """Limpia un texto individual y devuelve una lista de palabras filtradas válidas."""
