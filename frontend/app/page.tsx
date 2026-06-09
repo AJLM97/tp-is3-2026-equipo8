@@ -2,6 +2,16 @@
 import { useState, useEffect, useCallback } from "react";
 import BarHours from './components/BarHours'
 import DonutUsers from './components/DonutUsers'
+import dynamic from 'next/dynamic';
+
+const WordCloud = dynamic(() => import('./components/WordCloud'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full bg-gray-900 rounded-xl p-4 border border-gray-700 h-auto flex items-center justify-center">
+      <p className="text-gray-500 text-xs animate-pulse font-mono">Construyendo word cloud...</p>
+    </div>
+  )
+});
 
 export default function FileUploader() {
   const [file, setFile] = useState<File | null>(null);
@@ -40,8 +50,8 @@ export default function FileUploader() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-gray-50 text-gray-800">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-        
+      <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+
         <div className="p-8">
           <h1 className="text-2xl font-bold mb-6 text-center text-gray-900">
             Analizador de WhatsApp
@@ -85,91 +95,99 @@ export default function FileUploader() {
             <div className="mt-6 p-4 bg-gray-900 rounded-lg animate-in fade-in slide-in-from-bottom-2 duration-300">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-green-400 text-xs font-mono">Análisis listo:</span>
-                <button onClick={() => setResult(null)} className="text-gray-500 hover:text-white text-xs">Ocultar</button>
+                <button onClick={() => setResult(null)} className="text-gray-500 hover:text-white text-xs hover:cursor-pointer">Cerrar</button>
               </div>
               <div className="text-white space-y-6 text-sm">
 
-  {/* Tabla 1: Resumen */}
-  <div>
-    <h3 className="text-green-400 font-bold mb-2">Resumen</h3>
-    <table className="w-full border border-gray-700 text-left">
-      <tbody>
-        <tr className="border-b border-gray-700">
-          <td className="p-2 font-semibold">Chat</td>
-          <td className="p-2">{result.chat_name}</td>
-        </tr>
-        <tr>
-          <td className="p-2 font-semibold">Mensajes totales</td>
-          <td className="p-2">{result.messages_total}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                {/* Tabla 1: Resumen */}
+                <div>
+                  <h3 className="text-green-400 font-bold mb-2">Resumen</h3>
+                  <table className="w-full border border-gray-700 text-left">
+                    <tbody>
+                      <tr className="border-b border-gray-700">
+                        <td className="p-2 font-semibold w-[30%]">Chat</td>
+                        <td className="p-2">{result.chat_name}</td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 font-semibold w-[30%]">Mensajes totales</td>
+                        <td className="p-2">{result.messages_total}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-  {/* Tabla 2: Análisis */}
-  <div>
-    <h3 className="text-green-400 font-bold mb-2">Análisis</h3>
-    <table className="w-full border border-gray-700 text-left">
-      <tbody>
-        <tr className="border-b border-gray-700">
-          <td className="p-2 font-semibold">Usuario más activo</td>
-          <td className="p-2">{result.analytics.most_active_user.user}</td>
-        </tr>
-        <tr className="border-b border-gray-700">
-          <td className="p-2 font-semibold">Mensajes del usuario</td>
-          <td className="p-2">{result.analytics.most_active_user.messages_total}</td>
-        </tr>
-        <tr className="border-b border-gray-700">
-          <td className="p-2 font-semibold">Franja horaria pico</td>
-          <td className="p-2">{result.analytics.peak_time.peak_time}</td>
-        </tr>
-        <tr>
-          <td className="p-2 font-semibold">Mensajes en esa franja</td>
-          <td className="p-2">{result.analytics.peak_time.messages_total}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                {/* Tabla 2: Análisis */}
+                <div>
+                  <h3 className="text-green-400 font-bold mb-2">Análisis</h3>
+                  <table className="w-full border border-gray-700 text-left">
+                    <tbody>
+                      <tr className="border-b border-gray-700">
+                        <td className="p-2 font-semibold w-[30%]">Usuario más activo</td>
+                        <td className="p-2">{result.analytics.most_active_user.user}</td>
+                      </tr>
+                      <tr className="border-b border-gray-700">
+                        <td className="p-2 font-semibold w-[30%]">Mensajes del usuario</td>
+                        <td className="p-2">{result.analytics.most_active_user.messages_total}</td>
+                      </tr>
+                      <tr className="border-b border-gray-700">
+                        <td className="p-2 font-semibold w-[30%]">Franja horaria pico</td>
+                        <td className="p-2">{result.analytics.peak_time.peak_time}</td>
+                      </tr>
+                      <tr>
+                        <td className="p-2 font-semibold w-[30%]">Mensajes en esa franja</td>
+                        <td className="p-2">{result.analytics.peak_time.messages_total}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-  {/* Tabla 3: Días más activos */}
-  <div>
-    <h3 className="text-green-400 font-bold mb-2">Días más activos</h3>
-    <table className="w-full border border-gray-700 text-left">
-      <thead>
-        <tr className="border-b border-gray-700">
-          <th className="p-2">Fecha</th>
-          <th className="p-2">Mensajes</th>
-        </tr>
-      </thead>
-      <tbody>
-        {result.analytics.active_days.map((day: any, index: number) => (
-          <tr key={index} className="border-b border-gray-700">
-            <td className="p-2">{day.date}</td>
-            <td className="p-2">{day.messages_total}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+                {/* Tabla 3: Días más activos */}
+                <div>
+                  <h3 className="text-green-400 font-bold mb-2">Días más activos</h3>
+                  <table className="w-full border border-gray-700 text-left">
+                    <thead>
+                      <tr className="border-b border-gray-700">
+                        <th className="p-2 w-[30%]">Fecha</th>
+                        <th className="p-2">Mensajes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {result.analytics.active_days.map((day: any, index: number) => (
+                        <tr key={index} className="border-b border-gray-700">
+                          <td className="p-2 w-[30%]">{day.date}</td>
+                          <td className="p-2">{day.messages_total}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
-  {/* Gráficos: título y dos gráficos apilados verticalmente */}
-  <div className="mt-6">
-    <h3 className="text-green-400 font-bold mb-2">Gráfico de actividad</h3>
+                {/* Gráficos: título y dos gráficos apilados verticalmente */}
+                <div className="mt-6">
+                  <div className="flex flex-col gap-6">
 
-    <div className="flex flex-col gap-6">
-      <div className="w-full">
-        {/* @ts-ignore */}
-        <BarHours buckets={result.analytics.hour_buckets || Array.from({ length: 24 }, () => 0)} />
-      </div>
+                    <div className="w-full">
+                      <h3 className="text-green-400 font-bold mb-2">Mensajes por hora</h3>
+                      {/* @ts-ignore */}
+                      <BarHours buckets={result.analytics.hour_buckets || Array.from({ length: 24 }, () => 0)} />
+                    </div>
 
-      <div className="w-full">
-        {/* @ts-ignore */}
-        <DonutUsers topUsers={result.analytics.top_users || []} />
-      </div>
-    </div>
-  </div>
+                    <div className="w-full">
+                      <h3 className="text-green-400 font-bold mb-2">Usuarios más activos</h3>
+                      {/* @ts-ignore */}
+                      <DonutUsers topUsers={result.analytics.top_users || []} />
+                    </div>
+                  </div>
+                </div>
 
-</div>
+                {/* Word Cloud */}
+                <div className="mt-6">
+                  <h3 className="text-green-400 font-bold mb-2">Nube de palabras</h3>
+                  <div className="w-full">
+                    <WordCloud words={result.analytics.word_cloud || [{"text": "palabra", "value": 1}]} />
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>

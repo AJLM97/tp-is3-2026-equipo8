@@ -1,4 +1,5 @@
 from collections import Counter
+from .parser import limpiar_texto_mensaje
 
 # 1.2.1 Cantidad de mensajes
 def obtener_cantidad_mensajes(mensajes: list) -> int:
@@ -74,3 +75,15 @@ def top_users(mensajes: list, n: int = 10) -> list:
     conteo = Counter(usuarios)
     return [{"user": u, "count": c} for u, c in conteo.most_common(n)]
 
+# 2.2.1 Words Cloud - Las n palabras más usadas (excluyendo stop words)
+def obtener_nube_palabras(mensajes: list, n: int = 50) -> list:
+    """Devuelve una lista de dicts {text, value} con las n palabras más usadas."""
+    palabras_totales = []
+    
+    for m in mensajes:
+        texto = m.get("message")
+        palabras_limpias = limpiar_texto_mensaje(texto)
+        palabras_totales.extend(palabras_limpias)
+        
+    conteo = Counter(palabras_totales)
+    return [{"text": palabra, "value": cantidad} for palabra, cantidad in conteo.most_common(n)]

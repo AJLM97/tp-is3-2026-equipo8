@@ -61,3 +61,25 @@ def process_chat(chat_text: str):
         parsed_messages.append(current_message)
 
     return parsed_messages
+
+STOP_WORDS = {"el", "la", "los", "las", "un", "una",
+              "con", "para", "por", "en", "a",
+              "y", "o", "pero", "que",
+              "yo", "tú", "él", "ella", "usted", "vos", "nosotros", "vosotros", "me", "te", "se", "nos", "os",
+              "mi", "tu", "su", "nuestro", "vuestro",
+              "es", "son", "fue", "han", "está", "están", "era", "eran", "será", "serán",
+              "sí", "no", "si", "este", "esta", "estos", "estas", "eso", "esa", "esos", "esas",
+              "aquí", "allí", "allá", "ahí"}
+
+def limpiar_texto_mensaje(texto_original: str) -> list:
+    """Limpia un texto individual y devuelve una lista de palabras filtradas válidas."""
+    if not texto_original or not isinstance(texto_original, str):
+        return []
+        
+    texto = texto_original.lower()
+    
+    texto = re.sub(r'http\S+|www\S+', '', texto)
+    
+    palabras = re.findall(r'\b[a-záéíóúüñ]+\b', texto)
+    
+    return [w for w in palabras if w not in STOP_WORDS and len(w) > 2]

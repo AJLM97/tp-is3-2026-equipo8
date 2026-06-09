@@ -30,6 +30,7 @@ async def upload_file(file: UploadFile = File(...)):
             "peak_time": analytics.franja_horaria_pico(messages),
             "active_days": analytics.dias_mas_activos(messages),
             "hour_buckets": analytics.hour_buckets(messages),
-            "top_users": analytics.top_users(messages, n=10)
+            "top_users": analytics.top_users(messages, n=10),
+            "word_cloud": analytics.obtener_nube_palabras(messages, n=50)
         }
     }

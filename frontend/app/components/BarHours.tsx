@@ -47,9 +47,6 @@ export default function BarHours({ buckets }: Props) {
 
   return (
     <div className="bg-gray-800 p-4 rounded-md shadow-sm">
-      <h3 className="text-green-400 font-bold mb-2" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
-        Mensajes por hora
-      </h3>
       <div className="h-56 md:h-72">
         <Bar data={data} options={options} />
       </div>
