@@ -7,11 +7,13 @@ class Message(BaseModel):
     user: str
     message: str
 
-
 class UserCount(BaseModel):
     user: str
     count: int
-
+    
+class WordCloudItem(BaseModel):
+    text: str
+    value: int
 
 class AnalyticsExpanded(BaseModel):
     most_active_user: Dict
@@ -19,7 +21,7 @@ class AnalyticsExpanded(BaseModel):
     active_days: List[Dict]
     hour_buckets: List[int] = []
     top_users: List[UserCount] = []
-
+    word_cloud: List[WordCloudItem] = []
 
 class ChatResponse(BaseModel):
     chat_name: str
