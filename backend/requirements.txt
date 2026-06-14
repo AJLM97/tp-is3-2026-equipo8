@@ -1,0 +1,5 @@
+fastapi==0.136.0
+pydantic==2.13.3
+python-multipart==0.0.26
+uvicorn==0.44.0
+emoji==2.3.0

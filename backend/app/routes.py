@@ -7,6 +7,9 @@ router = APIRouter()
 
 @router.post("/upload", response_model=schemas.ChatResponse)
 async def upload_file(file: UploadFile = File(...)):
+    if file.filename is None:
+        raise HTTPException(400, "El archivo debe tener un nombre")
+    
     filename = file.filename.lower()
     content = await file.read()
     
@@ -31,6 +34,7 @@ async def upload_file(file: UploadFile = File(...)):
             "active_days": analytics.dias_mas_activos(messages),
             "hour_buckets": analytics.hour_buckets(messages),
             "top_users": analytics.top_users(messages, n=10),
-            "word_cloud": analytics.obtener_nube_palabras(messages, n=50)
+            "word_cloud": analytics.obtener_nube_palabras(messages, n=50),
+            "top_emojis": analytics.obtener_top_emojis(messages, n=5)
         }
     }

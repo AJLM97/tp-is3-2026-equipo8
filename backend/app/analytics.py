@@ -1,5 +1,6 @@
 from collections import Counter
 from .parser import limpiar_texto_mensaje
+import emoji
 
 # 1.2.1 Cantidad de mensajes
 def obtener_cantidad_mensajes(mensajes: list) -> int:
@@ -95,3 +96,18 @@ def obtener_nube_palabras(mensajes: list, n: int = 50) -> list:
     conteo = Counter(palabras_totales)
     return [{"text": palabra, "value": cantidad} for palabra, cantidad in conteo.most_common(n)]
 
+def obtener_top_emojis(mensajes: list, n: int = 10) -> list:
+    emojis_totales = []
+
+    for m in mensajes:
+        texto = m.get("message")
+
+        if not texto or not isinstance(texto, str):
+            continue
+
+        emojis_mensaje = [caracter for caracter in texto if emoji.is_emoji(caracter)]
+        emojis_totales.extend(emojis_mensaje)
+
+    conteo = Counter(emojis_totales)
+
+    return [{"text": e, "value": cantidad} for e, cantidad in conteo.most_common(n)]
