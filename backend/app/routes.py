@@ -5,6 +5,8 @@ import io
 
 router = APIRouter()
 
+# 1.1.2 Importar y procesar el archivo (soporte .txt y .zip)
+# 1.1.3 Validación de formato correcto
 @router.post("/upload", response_model=schemas.ChatResponse)
 async def upload_file(file: UploadFile = File(...)):
     if file.filename is None:
@@ -33,8 +35,8 @@ async def upload_file(file: UploadFile = File(...)):
             "peak_time": analytics.franja_horaria_pico(messages),
             "active_days": analytics.dias_mas_activos(messages),
             "hour_buckets": analytics.hour_buckets(messages),
-            "top_users": analytics.top_users(messages, n=10),
-            "word_cloud": analytics.obtener_nube_palabras(messages, n=50),
-            "top_emojis": analytics.obtener_top_emojis(messages, n=5)
+            "top_users": analytics.top_users(messages),
+            "word_cloud": analytics.obtener_nube_palabras(messages),
+            "top_emojis": analytics.obtener_top_emojis(messages)
         }
     }

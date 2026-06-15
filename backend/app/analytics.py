@@ -1,3 +1,4 @@
+import re
 from collections import Counter
 from .parser import limpiar_texto_mensaje
 import emoji
@@ -45,8 +46,8 @@ def dias_mas_activos(mensajes: list) -> list:
     
     return [{"date": fecha, "messages_total": cantidad} for fecha, cantidad in top_dias]
 
-
-# ---- Nuevas funciones para gráficos ----
+# ---- Funciones para gráficos ----
+# 2.2.3 Cantidad de actividad por hora
 def hour_buckets(mensajes: list) -> list:
     """Devuelve una lista de 24 enteros con el conteo de mensajes por hora (0..23)."""
     buckets = [0] * 24
@@ -69,7 +70,7 @@ def hour_buckets(mensajes: list) -> list:
 
     return buckets
 
-
+# 2.1.1 Graficos y métricas adicionales - Top 10 usuarios más activos
 def top_users(mensajes: list, n: int = 10) -> list:
     """Devuelve una lista de dicts {user, count} con los n usuarios más activos."""
     usuarios = [m.get("user") or "Unknown" for m in mensajes if m.get("user") != "Sistema"]
@@ -96,6 +97,7 @@ def obtener_nube_palabras(mensajes: list, n: int = 50) -> list:
     conteo = Counter(palabras_totales)
     return [{"text": palabra, "value": cantidad} for palabra, cantidad in conteo.most_common(n)]
 
+# 2.2.2 Emojis más utilizados
 def obtener_top_emojis(mensajes: list, n: int = 10) -> list:
     emojis_totales = []
 
@@ -105,7 +107,9 @@ def obtener_top_emojis(mensajes: list, n: int = 10) -> list:
         if not texto or not isinstance(texto, str):
             continue
 
-        emojis_mensaje = [caracter for caracter in texto if emoji.is_emoji(caracter)]
+        # 1) Se usa emoji_list para extraer TODOS los emojis del mensaje sin omitir repeticiones.
+        # 2) Con la expresion regular (re.sub) unificamos los emojis con distintos tono de piel.
+        emojis_mensaje = [re.sub(r'[\U0001f3fb-\U0001f3ff]', '', e["emoji"]) for e in emoji.emoji_list(texto)]
         emojis_totales.extend(emojis_mensaje)
 
     conteo = Counter(emojis_totales)
