@@ -30,8 +30,8 @@ export default function DynamicEmojiChart({ emojis }: DynamicEmojiChartProps) {
   return (
     <div className="w-full bg-gray-800 p-4 rounded-md shadow-sm">
       
-      <div className="w-full" style={{ height: `${dynamicHeight}px` }}>
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="w-full min-w-0" style={{ height: `${dynamicHeight}px`, minHeight: `${dynamicHeight}px` }}>
+        <ResponsiveContainer width="100%" height={dynamicHeight}>
           <BarChart 
             data={emojis} 
             layout="vertical" 
