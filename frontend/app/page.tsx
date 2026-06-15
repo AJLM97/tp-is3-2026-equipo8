@@ -2,16 +2,8 @@
 import { useState, useEffect, useCallback } from "react";
 import BarHours from './components/BarHours'
 import DonutUsers from './components/DonutUsers'
-import dynamic from 'next/dynamic';
-
-const WordCloud = dynamic(() => import('./components/WordCloud'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full bg-gray-900 rounded-xl p-4 border border-gray-700 h-auto flex items-center justify-center">
-      <p className="text-gray-500 text-xs animate-pulse font-mono">Construyendo word cloud...</p>
-    </div>
-  )
-});
+import EmojiChartjs from './components/EmojiChart';
+import WordCloud from './components/WordCloud';
 
 export default function FileUploader() {
   const [file, setFile] = useState<File | null>(null);
@@ -180,13 +172,18 @@ export default function FileUploader() {
                   </div>
                 </div>
 
+                {/* Emoji Chart*/}
+                <div className="mt-6">
+                  <h3 className="text-green-400 font-bold mb-2">Ranking de emojis utilizados</h3>
+                  <EmojiChartjs emojis={result.analytics.top_emojis || []} />
+                </div>
+
                 {/* Word Cloud */}
                 <div className="mt-6">
                   <h3 className="text-green-400 font-bold mb-2">Nube de palabras</h3>
-                  <div className="w-full">
-                    <WordCloud words={result.analytics.word_cloud || [{"text": "palabra", "value": 1}]} />
-                  </div>
+                  <WordCloud words={result.analytics.word_cloud || [{"text": "palabra", "value": 1}]} />
                 </div>
+
               </div>
             </div>
           )}
