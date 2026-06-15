@@ -43,9 +43,9 @@ backend/env/
 backend/python/
 
 # Cache de Python y archivos compilados
-backend/__pycache__/
-backend/*.py[cod]
-backend/*$py.class
+backend/**/__pycache__/
+backend/**/*.py[cod]
+backend/**/*$py.class
 
 # Dependencias de Python
 backend/node_modules/

@@ -1,4 +1,5 @@
 import re
+# 1.1.3 Validación de formato correcto para extracción de información
 
 # Formato viejo: 31/3/2026 18:11 - Usuario:
 REGEX_VIEJO = r"^(\d{1,2}/\d{1,2}/\d{2,4})\s(\d{1,2}:\d{2})\s-\s"

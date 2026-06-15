@@ -15,6 +15,10 @@ class WordCloudItem(BaseModel):
     text: str
     value: int
 
+class Emoji(BaseModel):
+    text: str
+    value: int
+
 class AnalyticsExpanded(BaseModel):
     most_active_user: Dict
     peak_time: Dict
@@ -22,8 +26,10 @@ class AnalyticsExpanded(BaseModel):
     hour_buckets: List[int] = []
     top_users: List[UserCount] = []
     word_cloud: List[WordCloudItem] = []
+    top_emojis: List[Emoji] = []
 
 class ChatResponse(BaseModel):
     chat_name: str
     messages_total: int
     analytics: AnalyticsExpanded
+
