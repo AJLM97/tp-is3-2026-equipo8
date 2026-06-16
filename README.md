@@ -72,8 +72,8 @@ Primero, clonar el repositorio (utilizando el comando de `git clone`) e ingresar
 
 ## 📎Links útiles para entorno local:
 ###  `🐍  Backend`
-- API local: <http://localhost:8080>
-- Documentación interactiva de (Swagger): <http://localhost:8080/docs>
+- API local: <http://localhost:8000/>
+- Documentación interactiva de (Swagger): <http://localhost:8000/docs>
 
 ###  `📦  Frontend`
 - Aplicación local en el navegador: <http://localhost:3000/>
