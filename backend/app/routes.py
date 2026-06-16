@@ -7,8 +7,37 @@ router = APIRouter()
 
 # 1.1.2 Importar y procesar el archivo (soporte .txt y .zip)
 # 1.1.3 Validación de formato correcto
-@router.post("/upload", response_model=schemas.ChatResponse)
-async def upload_file(file: UploadFile = File(...)):
+@router.post("/upload", 
+             response_model=schemas.ChatResponse,
+             summary="Cargar y analizar un chat de WhatsApp",
+             responses={
+                 200: {"description": "Análisis del chat generado con éxito."},
+                 400: {"description": "Error de validación: Formato de archivo incorrecto o archivo vacío."}
+        }
+)
+async def upload_file(file: UploadFile = File(..., description="Archivo de exportación de WhatsApp (.txt o .zip)")):
+
+    """
+    Procesa un archivo de exportación de chat de WhatsApp y devuelve métricas detalladas.
+
+    **Flujo del endpoint:**
+    1. Valida que el archivo tenga nombre y sea de extensión válida (.txt o .zip).
+    2. Si es un .zip, busca y extrae el primer archivo .txt que encuentre dentro.
+    3. Decodifica el texto ignorando caracteres corruptos.
+    4. Pasa el texto plano al módulo parser para estructurar los mensajes.
+    5. Ejecuta las funciones de analítica para generar las estadísticas finales.
+
+    **Métricas incluidas en la respuesta:**
+    - Total de mensajes analizados.
+    - Usuario más activo del chat.
+    - Franja horaria pico (hora con mayor cantidad de mensajes).
+    - Días de la semana con mayor actividad.
+    - Distribución de mensajes por horas (buckets).
+    - Top de usuarios con más interacciones.
+    - Nube de palabras más utilizadas.
+    - Top de emojis más frecuentes.
+    """
+
     if file.filename is None:
         raise HTTPException(400, "El archivo debe tener un nombre")
     
@@ -18,7 +47,8 @@ async def upload_file(file: UploadFile = File(...)):
     if filename.endswith(".zip"):
         with zipfile.ZipFile(io.BytesIO(content)) as z:
             txt_files = [f for f in z.namelist() if f.endswith(".txt")]
-            if not txt_files: raise HTTPException(400, "No hay .txt en el ZIP")
+            if not txt_files: 
+                raise HTTPException(400, "No hay archivo.txt en el ZIP")
             with z.open(txt_files[0]) as f:
                 texto = f.read().decode("utf-8", errors="ignore")
     elif filename.endswith(".txt"):
