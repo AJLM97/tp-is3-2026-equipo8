@@ -109,3 +109,14 @@ Nuestro equipo utilizó **GitHub Flow**:
 1. La rama `main` siempre está lista para producción.
 2. Cada nueva funcionalidad o tarea del cronograma se trabaja en una rama `feature/`.
 3. Todo el código se integra mediante **Pull Requests** con revisión por pares.
+
+---
+
+## 🌐 Índice de Documentación Técnica (Wiki de GitHub)
+
+Para comprender en profundidad las decisiones de diseño arquitectónico y de algoritmos implementados en el código fuente, explore las páginas de nuestra Wiki:
+
+1. **[Home](https://github.com/AJLM97/tp-is3-2026-equipo8/wiki)**: Portal de bienvenida e índice de navegación técnica.
+2. **[Arquitectura del Proyecto](https://github.com/AJLM97/tp-is3-2026-equipo8/wiki/Arquitectura-del-Proyecto)**: Desglose modular y justificación de la estrategia de procesamiento efímero en memoria RAM (*Privacy by Design*).
+3. **[Módulo Parser](https://github.com/AJLM97/tp-is3-2026-equipo8/wiki/Modulo-Parser)**: Análisis técnico de las 4 expresiones regulares para el soporte multiformato y lógica multilínea.
+4. **[Módulo Estadístico](https://github.com/AJLM97/tp-is3-2026-equipo8/wiki/Modulo-Estadistico)**: Algorítmica de limpieza, remoción de elementos multimedia, filtrado de *Stop Words*, sanitización Unicode de emojis y optimización horaria.
